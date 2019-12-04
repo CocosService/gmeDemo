@@ -1,0 +1,8 @@
+.DS_Store
+demo/build/
+demo/libary/
+demo/temp/
+demo/.vscode
+*.log
+*Demo.zip
+node_modules/
