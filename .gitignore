@@ -6,3 +6,4 @@ demo/.vscode
 *.log
 *Demo.zip
 node_modules/
+temp/

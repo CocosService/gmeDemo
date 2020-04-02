@@ -165,8 +165,6 @@ cc.Class({
     if (this.joined) {
       tencentGME && tencentGME.exitRoom();
       this.printCode(`tencentGME && tencentGME.exitRoom();`);
-      this.speakerEnabled = false;
-      this.micEnabled = false;
     } else {
       var channel = this.ebChannel.string;
       if (channel === "") {
@@ -228,14 +226,14 @@ cc.Class({
   },
 
   printLog: function (info) {
-    this.logs.push(info);
-    var totalCount = this.logs.length;
-    this.logListView.content.removeAllChildren(true);
-    for (var i = 0; i < totalCount; i++) {
-      var item = cc.instantiate(this.itemTemplate);
-      this.logListView.content.addChild(item);
-      item.getComponent('Item').updateItem(this.logs[i]);
+    if (this.logs.length > 50) {
+      this.logs = [];
+      this.logListView.content.removeAllChildren(true);
     }
+    this.logs.push(info);
+    var item = cc.instantiate(this.itemTemplate);
+    this.logListView.content.addChild(item);
+    item.getComponent('Item').updateItem(info);
     this.logListView.scrollToBottom(0.1);
   },
 
@@ -247,7 +245,10 @@ cc.Class({
         this.btnLocal.interactable = true;
         this.btnRemote.interactable = true;
         this.joined = true;
+        this.speakerEnabled = false;
+        this.micEnabled = false;
         this.initMultiLang();
+        this.updateMute();
         break;
       case tencentGME.event.ITMG_MAIN_EVENT_TYPE_EXIT_ROOM:
         console.log('ITMG_MAIN_EVENT_TYPE_EXIT_ROOM');
@@ -255,7 +256,10 @@ cc.Class({
         this.btnLocal.interactable = false;
         this.btnRemote.interactable = false;
         this.joined = false;
+        this.speakerEnabled = false;
+        this.micEnabled = false;
         this.initMultiLang();
+        this.updateMute();
         break;
       case tencentGME.event.ITMG_MAIN_EVENT_TYPE_ROOM_DISCONNECT:
         console.log('ITMG_MAIN_EVENT_TYPE_ROOM_DISCONNECT');
