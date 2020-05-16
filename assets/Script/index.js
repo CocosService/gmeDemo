@@ -1,5 +1,7 @@
-const appid = "";
-const key = "";
+
+const appid = ""; //'替换为从腾讯云 GME 后后台获取的 AppID'
+const key = ""; //'替换为从腾讯云 GME 后台获取的权限密钥'
+
 if (CC_EDITOR) {
   if (!Editor.CocosService_gmeDemo) {
     Editor.CocosService_gmeDemo = true;
